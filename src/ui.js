@@ -1,5 +1,6 @@
 // Semua penyusunan DOM berada di sini. Teks pengguna ditulis dengan textContent.
 
+import { OWNER_WHATSAPP_NUMBER } from "./config.js";
 import { buildWhatsAppUrl, CATEGORIES, formatRupiah } from "./products.js";
 
 const els = {};
@@ -55,16 +56,33 @@ function makeStatusBadge(product) {
   return node("span", `badge badge-status ${modifier}`, statusText(product));
 }
 
-function makeWhatsAppLink(product) {
-  const link = node(
-    "a",
-    `btn btn-wa ${product.stok > 0 ? "btn-primary" : "btn-outline-alert"}`,
-    product.stok > 0 ? "Pesan via WhatsApp" : "Tanya Stok",
-  );
-  link.href = buildWhatsAppUrl(product);
+function waLink(product, className, label) {
+  const link = node("a", className, label);
+  link.href = buildWhatsAppUrl(OWNER_WHATSAPP_NUMBER, product);
   link.target = "_blank";
   link.rel = "noopener noreferrer";
   return link;
+}
+
+function makeWhatsAppLink(product) {
+  return waLink(product, "btn btn-wa btn-primary", "Pesan via WhatsApp");
+}
+
+function makeOutOfStockOrder(product) {
+  const wrapper = node("div", "card-order");
+
+  const disabledOrder = node("button", "btn btn-wa btn-disabled", "Pesan via WhatsApp");
+  disabledOrder.type = "button";
+  disabledOrder.disabled = true;
+  disabledOrder.setAttribute("aria-disabled", "true");
+
+  wrapper.append(
+    node("p", "order-note", "Stok habis. Silakan tanyakan ketersediaannya."),
+    disabledOrder,
+    waLink(product, "btn btn-small btn-outline-alert", "Tanya Stok"),
+  );
+
+  return wrapper;
 }
 
 function makeActionButton(label, action, id, className) {
@@ -96,7 +114,7 @@ function renderProductCard(product) {
     node("p", "card-price", formatRupiah(product.harga)),
     node("p", "card-stock", `Stok: ${product.stok}`),
     synopsis,
-    makeWhatsAppLink(product),
+    product.stok > 0 ? makeWhatsAppLink(product) : makeOutOfStockOrder(product),
   );
 
   card.append(cover, body);
@@ -202,9 +220,13 @@ export function setupUI(handlers) {
     deskripsi: document.getElementById("error-deskripsi"),
     imageUrl: document.getElementById("error-imageUrl"),
   };
+  els.resetFilter = document.getElementById("btn-reset-filter");
   els.toast = document.getElementById("toast");
 
-  els.filterKategori.append(...CATEGORIES.map((name) => new Option(name, name)));
+  els.filterKategori.append(
+    new Option("Semua", "Semua"),
+    ...CATEGORIES.map((name) => new Option(name, name)),
+  );
   els.fieldKategori.append(
     new Option("Pilih kategori", ""),
     ...CATEGORIES.map((name) => new Option(name, name)),
@@ -220,12 +242,38 @@ export function setupUI(handlers) {
     handlers.onFiltersChange();
   });
 
+  els.resetFilter.addEventListener("click", () => {
+    resetFilters();
+    handlers.onFiltersChange();
+    els.search.focus();
+  });
+
   [els.filterKategori, els.filterStok, els.sort].forEach((control) => {
     control.addEventListener("change", handlers.onFiltersChange);
   });
 
+  els.kategoriChips = Array.from(document.querySelectorAll("[data-kategori]"));
+  els.kategoriChips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      if (els.panelKatalog.hidden) handlers.onTabChange("Katalog");
+      els.filterKategori.value = chip.dataset.kategori;
+      syncCategoryChips();
+      handlers.onFiltersChange();
+      els.panelKatalog.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "start",
+      });
+    });
+  });
+
   document.querySelectorAll(".tab").forEach((tab) => {
     tab.addEventListener("click", () => handlers.onTabChange(tab.dataset.tab));
+  });
+
+  document.querySelectorAll(".brand, .hero-cta").forEach((link) => {
+    link.addEventListener("click", () => {
+      if (els.panelKatalog.hidden) handlers.onTabChange("Katalog");
+    });
   });
 
   els.btnTambah.addEventListener("click", handlers.onAdd);
@@ -278,7 +326,18 @@ export function setTab(name) {
   els.panelKelola.hidden = name !== "Kelola";
 }
 
+function syncCategoryChips() {
+  if (!els.kategoriChips) return;
+  const active = els.filterKategori.value;
+  els.kategoriChips.forEach((chip) => {
+    const isActive = chip.dataset.kategori === active;
+    chip.classList.toggle("is-active", isActive);
+    chip.setAttribute("aria-pressed", String(isActive));
+  });
+}
+
 export function renderCatalog(products) {
+  syncCategoryChips();
   els.grid.replaceChildren(...products.map(renderProductCard));
   els.emptyState.hidden = products.length > 0;
 }

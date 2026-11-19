@@ -1,108 +1,10 @@
-// Data contoh, aturan validasi, dan helper produk untuk Bilik Aksara.
+// Helper produk. Sumber objek buku ada di books.js; modul ini menjaga kompatibilitas
+// dengan store.js, main.js, dan ui.js yang memakai nama SAMPLE_PRODUCTS.
 
-export const CATEGORIES = ["Fiksi", "Non-Fiksi", "Pendidikan", "Komik", "Puisi"];
+import { BOOKS, CATEGORIES } from "./books.js";
 
-// Nomor demo, BUKAN nomor pribadi. Ganti sebelum pemakaian produksi.
-export const DEMO_WHATSAPP_NUMBER = "6280000000000";
-
-export const SAMPLE_PRODUCTS = [
-  {
-    id: "bk-01",
-    nama: "Laut yang Bercerita",
-    kategori: "Fiksi",
-    harga: 78000,
-    stok: 12,
-    sinopsis: "Sebuah perjalanan pulang yang penuh tersirat dan harapan.",
-    deskripsi:
-      "Cerita tentang persahabatan, janji yang ditunda, dan laut yang menyimpan semua surat.",
-    imageUrl: "covers/laut-yang-bercerita.svg",
-    unggulan: true,
-  },
-  {
-    id: "bk-02",
-    nama: "Lima Menara di Negeri Angin",
-    kategori: "Fiksi",
-    harga: 65000,
-    stok: 8,
-    sinopsis: "Lima menara menjadi saksi sebuah perjalanan yang penuh teka-teki.",
-    deskripsi:
-      "Petualangan seorang pengelana menembus negeri angin untuk mengumpulkan kembali lima menara yang hilang.",
-    imageUrl: "covers/lima-menara.svg",
-    unggulan: false,
-  },
-  {
-    id: "bk-03",
-    nama: "Kebiasaan Kecil, Dampak Besar",
-    kategori: "Non-Fiksi",
-    harga: 99000,
-    stok: 15,
-    sinopsis: "Perubahan besar berawal dari langkah kecil yang diulang setiap hari.",
-    deskripsi:
-      "Panduan praktis membangun kebiasaan baik dengan sistem sederhana dan target yang terukur.",
-    imageUrl: "covers/kebiasaan-kecil.svg",
-    unggulan: true,
-  },
-  {
-    id: "bk-04",
-    nama: "Teras Filsafat Senja",
-    kategori: "Non-Fiksi",
-    harga: 72000,
-    stok: 0,
-    sinopsis: "Renungan santai tentang cara hidup tenang di tengah hiruk pikuk.",
-    deskripsi:
-      "Kumpulan esai ringan yang mengajak pembaca berhenti sejenak dan memaknai hal-hal sederhana.",
-    imageUrl: "covers/teras-filsafat-senja.svg",
-    unggulan: false,
-  },
-  {
-    id: "bk-05",
-    nama: "Algoritma untuk Pemula",
-    kategori: "Pendidikan",
-    harga: 88000,
-    stok: 6,
-    sinopsis: "Belajar berpikir terstruktur lewat contoh dan latihan yang ramah pemula.",
-    deskripsi:
-      "Pengantar algoritma dari dasar hingga studi kasus, disajikan dengan bahasa yang mudah diikuti.",
-    imageUrl: "covers/algoritma-pemula.svg",
-    unggulan: false,
-  },
-  {
-    id: "bk-06",
-    nama: "Puisi di Ujung Hari",
-    kategori: "Puisi",
-    harga: 55000,
-    stok: 9,
-    sinopsis: "Barisan puisi pendek yang menemani saat hari mulai pelan dan redup.",
-    deskripsi:
-      "Antologi sajak tentang kota, senja, dan hal-hal kecil yang sering terlewat dalam keseharian.",
-    imageUrl: "covers/puisi-ujung-hari.svg",
-    unggulan: false,
-  },
-  {
-    id: "bk-07",
-    nama: "Kancil dan Cermin Ajaib",
-    kategori: "Komik",
-    harga: 45000,
-    stok: 20,
-    sinopsis: "Kancil menemukan cermin yang membuat setiap pintanya jadi petualangan baru.",
-    deskripsi:
-      "Komik ringan penuh humor tentang akal, persahabatan, dan cermin yang tidak pernah jujur.",
-    imageUrl: "covers/kancil-cermin-ajaib.svg",
-    unggulan: false,
-  },
-  {
-    id: "bk-08",
-    nama: "Berpikir Cepat, Berpikir Pelan",
-    kategori: "Non-Fiksi",
-    harga: 120000,
-    stok: 4,
-    sinopsis: "Memoar ringan tentang keputusan, insting, dan cara kerja pikiran kita.",
-    deskripsi:
-      "Bacaan populer yang mengupas dua cara kerja pikiran dan kapan masing-masing dibutuhkan.",
-    imageUrl: "covers/berpikir-cepat-pelan.svg",
-    unggulan: true,
-  },
-];
+export { BOOKS, CATEGORIES, BOOKS as SAMPLE_PRODUCTS } from "./books.js";
+export { DEMO_WHATSAPP_NUMBER, OWNER_WHATSAPP_NUMBER } from "./config.js";
 
 const rupiahFormatter = new Intl.NumberFormat("id-ID", {
   style: "currency",
@@ -121,8 +23,9 @@ export function createId() {
   return `bk-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-export function cloneProducts(products = SAMPLE_PRODUCTS) {
-  return products.map((product) => ({ ...product }));
+export function cloneProducts(products = BOOKS) {
+  const source = Array.isArray(products) ? products : [];
+  return source.map((product) => ({ ...product }));
 }
 
 export function normalizeProduct(raw) {
@@ -195,11 +98,51 @@ export function normalizeProduct(raw) {
   };
 }
 
-export function buildWhatsAppUrl(product) {
-  const pesan =
-    product.stok > 0
-      ? `Halo Bilik Aksara, saya tertarik dengan buku "${product.nama}" (${product.kategori}, ${formatRupiah(product.harga)}). Apakah stok masih tersedia?`
-      : `Halo Bilik Aksara, buku "${product.nama}" sedang habis. Kapan tersedia lagi?`;
+/**
+ * Menerima format internasional: 628..., +62 800..., atau 62-800...
+ * Mengembalikan digit saja untuk wa.me, atau melempar TypeError jika tidak valid.
+ */
+export function normalizeWhatsAppNumber(nomor) {
+  const raw = String(nomor ?? "").trim();
+  if (!raw) throw new TypeError("Nomor WhatsApp wajib diisi.");
 
-  return `https://wa.me/${DEMO_WHATSAPP_NUMBER}?text=${encodeURIComponent(pesan)}`;
+  const cleaned = raw.replace(/[\s().-]/g, "");
+  const digits = cleaned.startsWith("+") ? cleaned.slice(1) : cleaned;
+
+  if (!/^\d+$/.test(digits)) {
+    throw new TypeError("Nomor WhatsApp hanya boleh angka dengan tanda + opsional di depan.");
+  }
+  if (digits.startsWith("0")) {
+    throw new TypeError("Gunakan format internasional, misalnya 6280000000000.");
+  }
+  if (digits.length < 8 || digits.length > 15) {
+    throw new TypeError("Nomor WhatsApp harus 8–15 digit sesuai format E.164.");
+  }
+
+  return digits;
+}
+
+/**
+ * Menyusun tautan wa.me dari nomor tujuan dan objek buku.
+ * Pesan memuat judul, kategori, harga Rupiah, dan informasi stok.
+ */
+export function buildWhatsAppUrl(nomor, buku) {
+  const tujuan = normalizeWhatsAppNumber(nomor);
+  if (!buku || typeof buku !== "object") {
+    throw new TypeError("Data buku tidak valid.");
+  }
+
+  const judul = String(buku.nama ?? "").trim() || "Buku tanpa nama";
+  const kategori = String(buku.kategori ?? "").trim() || "Umum";
+  const harga = formatRupiah(buku.harga);
+  const stok = Number.isFinite(Number(buku.stok)) ? Number(buku.stok) : 0;
+  const stokTeks = stok > 0 ? `Stok tersedia: ${stok}` : "Stok habis";
+  const detail = `${judul} (${kategori}, ${harga})`;
+
+  const pesan =
+    stok > 0
+      ? `Halo Bilik Aksara, saya tertarik dengan buku ${detail}. ${stokTeks}. Apakah bisa dipesan?`
+      : `Halo Bilik Aksara, buku ${detail} sedang habis. ${stokTeks}. Kapan tersedia lagi?`;
+
+  return `https://wa.me/${tujuan}?text=${encodeURIComponent(pesan)}`;
 }

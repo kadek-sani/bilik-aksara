@@ -1,5 +1,6 @@
 // State, alur pencarian/filter, dan operasi CRUD. Tidak ada backend atau login.
 
+import { filterBooks } from "./filters.js";
 import { cloneProducts, normalizeProduct, SAMPLE_PRODUCTS } from "./products.js";
 import { loadProducts, saveProducts } from "./store.js";
 import * as ui from "./ui.js";
@@ -14,49 +15,8 @@ const state = {
   tab: "Katalog",
 };
 
-function byName(a, b) {
-  return a.nama.localeCompare(b.nama, "id");
-}
-
-function getVisibleProducts() {
-  const query = state.query.trim().toLocaleLowerCase("id-ID");
-
-  const result = products.filter((product) => {
-    if (state.kategori !== "Semua" && product.kategori !== state.kategori) return false;
-    if (state.stok === "Tersedia" && product.stok === 0) return false;
-    if (state.stok === "Habis" && product.stok > 0) return false;
-    if (!query) return true;
-
-    return [product.nama, product.kategori, product.sinopsis, product.deskripsi].some((field) =>
-      String(field).toLocaleLowerCase("id-ID").includes(query),
-    );
-  });
-
-  switch (state.sort) {
-    case "Nama A-Z":
-      result.sort(byName);
-      break;
-    case "Nama Z-A":
-      result.sort((a, b) => -byName(a, b));
-      break;
-    case "Harga Terendah":
-      result.sort((a, b) => a.harga - b.harga);
-      break;
-    case "Harga Tertinggi":
-      result.sort((a, b) => b.harga - a.harga);
-      break;
-    case "Stok Terbanyak":
-      result.sort((a, b) => b.stok - a.stok);
-      break;
-    default:
-      result.sort((a, b) => Number(b.unggulan) - Number(a.unggulan) || byName(a, b));
-  }
-
-  return result;
-}
-
 function renderCatalog() {
-  ui.renderCatalog(getVisibleProducts());
+  ui.renderCatalog(filterBooks(products, state));
 }
 
 function renderAll() {

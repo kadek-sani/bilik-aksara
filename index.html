@@ -14,12 +14,21 @@
   <body>
     <header class="navbar">
       <div class="navbar-inner">
-        <div class="brand">
-          <span class="brand-mark" aria-hidden="true">✦</span>
-          <span>Bilik Aksara</span>
-        </div>
+        <a class="brand" href="#panel-katalog" aria-label="Bilik Aksara — buka katalog">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M20.7 3.3A1 1 0 0 0 20 3c-8.8 0-14.8 4.2-14.8 10.6 0 1.6.4 3.1 1.2 4.4L4 20a1 1 0 0 0 1.4 1.4l2-2c1.3.8 2.8 1.2 4.4 1.2C18.2 20.6 22 14.6 22 5.8a1 1 0 0 0-1.3-2.5Zm-6.5 12.1a5.4 5.4 0 0 1-6.6-1.3 5.4 5.4 0 0 1 8-6.4 10.8 10.8 0 0 1-1.4 7.7Z"
+              />
+            </svg>
+          </span>
+          <span class="brand-name">Bilik Aksara</span>
+        </a>
 
-        <span class="chip chip-demo">Mode Demo</span>
+        <span class="chip chip-demo">
+          <span class="chip-dot" aria-hidden="true"></span>
+          Mode Demo
+        </span>
 
         <div class="tabs" role="tablist" aria-label="Navigasi utama">
           <button
@@ -56,6 +65,10 @@
           <p class="hero-subtitle">
             Temukan buku favoritmu, cek stoknya, lalu pesan langsung lewat WhatsApp.
           </p>
+          <a class="btn btn-primary hero-cta" href="#panel-katalog">
+            Jelajahi Katalog
+            <span aria-hidden="true">↓</span>
+          </a>
         </div>
         <img
           class="hero-art"
@@ -86,6 +99,33 @@
           <strong id="metric-habis">0</strong>
           <span>Stok Habis</span>
         </article>
+      </section>
+
+      <section class="kategori-strip" aria-labelledby="kategori-title">
+        <div class="kategori-heading">
+          <h2 id="kategori-title">Jelajahi berdasarkan kategori</h2>
+          <p>Lima rak pilihan, semuanya bisa langsung dipesan.</p>
+        </div>
+        <div class="kategori-chips" id="kategori-chips">
+          <button class="kategori-chip is-active" type="button" data-kategori="Semua" aria-pressed="true">
+            Semua
+          </button>
+          <button class="kategori-chip" type="button" data-kategori="Fiksi" aria-pressed="false">
+            Fiksi
+          </button>
+          <button class="kategori-chip" type="button" data-kategori="Non-Fiksi" aria-pressed="false">
+            Non-Fiksi
+          </button>
+          <button class="kategori-chip" type="button" data-kategori="Pendidikan" aria-pressed="false">
+            Pendidikan
+          </button>
+          <button class="kategori-chip" type="button" data-kategori="Komik" aria-pressed="false">
+            Komik
+          </button>
+          <button class="kategori-chip" type="button" data-kategori="Puisi" aria-pressed="false">
+            Puisi
+          </button>
+        </div>
       </section>
 
       <section
@@ -143,9 +183,14 @@
         </div>
 
         <div id="product-grid" class="product-grid" aria-live="polite"></div>
-        <p id="empty-state" class="empty-state" hidden>
-          Tidak ada buku yang cocok dengan pencarian atau filter ini.
-        </p>
+        <div id="empty-state" class="empty-state" role="status" hidden>
+          <span class="empty-icon" aria-hidden="true">⌕</span>
+          <h3>Tidak ada buku yang cocok</h3>
+          <p>Coba kata kunci lain atau longgarkan filter kategori dan stok.</p>
+          <button id="btn-reset-filter" class="btn btn-primary" type="button">
+            Reset pencarian &amp; filter
+          </button>
+        </div>
       </section>
 
       <section
