@@ -64,11 +64,11 @@ Catatan:
 
 ### 3.2 Konvensi teknis
 
-- Nomor WhatsApp disimpan sebagai konstanta konfigurasi, **bukan data pribadi**: `6280000000000` (nomor demo placeholder, bukan nomor nyata). Harus diganti sebelum pemakaian produksi.
+- Nomor WhatsApp tujuan pemesanan disimpan sebagai konstanta konfigurasi nonrahasia: `083115706432`. Format lokal `08...` dinormalisasi menjadi `6283115706432` oleh `buildWhatsAppUrl()` agar tautan `wa.me` valid.
 - Pesan WhatsApp: `Halo Bilik Aksara, saya tertarik dengan buku "{nama}" ({kategori}, {hargaRupiah}). Apakah stok masih tersedia?`; untuk stok habis: `Halo Bilik Aksara, buku "{nama}" sedang habis. Kapan tersedia lagi?`. Encode dengan `encodeURIComponent`.
 - `hargaRupiah` ditampilkan dengan `Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 })`.
 - Kategori adalah daftar tetap: `Fiksi`, `Non-Fiksi`, `Pendidikan`, `Komik`, `Puisi`.
-- `imageUrl` berupa path relatif (mis. `covers/laut-yang-bercerita.svg`) yang digabung dengan `import.meta.env.BASE_URL` agar tetap benar saat di-deploy di subpath.
+- `imageUrl` berupa path relatif (mis. `covers/laut-yang-bercerita.svg`) yang digabung dengan `import.meta.env.BASE_URL`, atau data URL gambar hasil unggahan form (maksimal 10 MB). Keduanya punya fallback inisial jika gagal dimuat.
 - State UI (teks pencarian, filter, sorting, tab aktif) **tidak** disimpan; yang disimpan hanya data produk.
 
 ---
@@ -231,7 +231,7 @@ Semua kriteria dapat dicek secara manual di browser tanpa alat khusus.
 - [ ] **AC-26** Buka dengan lebar 768px → 2 kolom; 1280px → 4 kolom.
 - [ ] **AC-27** Arahkan kursor ke kartu dan tekan Tab berpindah antar kontrol → ada perubahan state yang halus dan terlihat, serta fokus keyboard tetap terlihat.
 - [ ] **AC-28** Matikan JavaScript/jaringan setelah halaman dimuat → aset tetap tampil karena tidak ada permintaan ke internet (tidak ada font/CDN/API eksternal).
-- [ ] **AC-29** Periksa source kode: tidak ada string `apiKey`, `token`, `secret`, atau nomor telepon pribadi; nomor WA hanya placeholder `6280000000000`.
+- [ ] **AC-29** Periksa source kode: tidak ada string `apiKey`, `token`, `secret`, atau kredensial; nomor WA hanya konfigurasi `083115706432` (dinormalisasi menjadi `6283115706432`).
 - [ ] **AC-30** `npm install && npm run dev` berhasil di lingkungan bersih dan halaman terbuka di URL yang ditampilkan Vite.
 
 ---

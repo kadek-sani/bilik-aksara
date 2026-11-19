@@ -284,7 +284,7 @@ Empat kartu kecil di bawah hero: `Total Judul`, `Total Stok`, `Judul Unggulan`, 
 |  | Stok        [ ____ ]           [x] Unggulan                                        |    |
 |  | Sinopsis    [______________________________________]                              |    |
 |  | Deskripsi   [______________________________________]                              |    |
-|  | imageUrl    [ covers/_____________________________ ]                              |    |
+|  | Sampul      [ Pilih file gambar ] (pratinjau)                                   |    |
 |  |                                            [ Batal ]  [ Simpan ]                  |    |
 |  +--------------------------------------------------------------------------------------+    |
 +----------------------------------------------------------------------------------------------+
@@ -377,7 +377,7 @@ Empat kartu kecil di bawah hero: `Total Judul`, `Total Stok`, `Judul Unggulan`, 
 | | Stok [____] [x] Unggulan   | |
 | | Sinopsis [_____________]   | |
 | | Deskripsi [____________]   | |
-| | imageUrl [covers/______]   | |
+| | Sampul [Pilih file]       | |
 | | [Batal]      [Simpan]      | |
 | +----------------------------+ |
 +--------------------------------+

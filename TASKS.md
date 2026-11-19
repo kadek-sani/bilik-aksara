@@ -91,7 +91,7 @@ Siapkan 8 buku fiktif dan konstanta pendukung sebelum render.
 **Acceptance criteria**
 - [ ] Tepat 8 objek produk sesuai `SPEC.md` 4.2 dengan field lengkap: `id`, `nama`, `kategori`, `harga`, `stok`, `sinopsis`, `deskripsi`, `imageUrl`, `unggulan` (F-01).
 - [ ] Lima kategori tetap tersedia: Fiksi, Non-Fiksi, Pendidikan, Komik, Puisi (SPEC 3.2).
-- [ ] Nomor WhatsApp hanya placeholder `6280000000000` dan diberi penanda jelas sebagai demo (R-04).
+- [ ] Nomor WhatsApp hanya konfigurasi `083115706432` dan dinormalisasi menjadi `6283115706432` saat membuat tautan (R-04).
 - [ ] Tidak ada nama, email, nomor telepon, atau alamat pribadi dalam data maupun aset (SPEC 4.2, N-03).
 - [ ] Harga diformat `id-ID` IDR tanpa desimal melalui helper (N-09).
 - [ ] Total stok data contoh = 74 dan 3 buku ber-`unggulan: true` (AC-04).
@@ -404,7 +404,7 @@ Pastikan tidak ada kredensial atau informasi pribadi.
 
 **Acceptance criteria**
 - [ ] Tidak ada string `apiKey`, `token`, `secret`, `password`, atau `.env` dengan nilai nyata di repositori (N-03, AC-29).
-- [ ] Nomor WhatsApp hanya `6280000000000` dan diberi komentar "ganti sebelum produksi" (R-04).
+- [ ] Nomor WhatsApp hanya `083115706432` dan diberi komentar sebagai konfigurasi nonrahasia (R-04).
 - [ ] Delapan buku contoh, sinopsis, deskripsi, dan SVG tidak memuat data pribadi (SPEC 4.2).
 - [ ] Tidak ada file konfigurasi hosting yang menyimpan kredensial.
 

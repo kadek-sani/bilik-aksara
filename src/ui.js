@@ -1,7 +1,12 @@
 // Semua penyusunan DOM berada di sini. Teks pengguna ditulis dengan textContent.
 
 import { OWNER_WHATSAPP_NUMBER } from "./config.js";
-import { buildWhatsAppUrl, CATEGORIES, formatRupiah } from "./products.js";
+import {
+  buildWhatsAppUrl,
+  CATEGORIES,
+  formatRupiah,
+  validateCoverFile,
+} from "./products.js";
 
 const els = {};
 let toastTimer = null;
@@ -28,27 +33,64 @@ function statusText(product) {
   return product.stok > 0 ? "Tersedia" : "Habis";
 }
 
+function coverFallback(nama) {
+  const fallback = node("div", "cover-fallback", initials(nama || "?"));
+  fallback.setAttribute("role", "img");
+  fallback.setAttribute("aria-label", `Sampul ${nama || "buku"}`);
+  return fallback;
+}
+
+function coverSource(imageUrl) {
+  if (typeof imageUrl !== "string" || !imageUrl) return "";
+  return imageUrl.startsWith("data:") ? imageUrl : `${import.meta.env.BASE_URL}${imageUrl}`;
+}
+
 function makeCover(product, small = false) {
   const cover = node("div", small ? "cover cover-small" : "cover");
-  const image = node("img");
+  const src = coverSource(product.imageUrl);
 
-  image.src = `${import.meta.env.BASE_URL}${product.imageUrl}`;
+  if (!src) {
+    cover.append(coverFallback(product.nama));
+    return cover;
+  }
+
+  const image = node("img");
+  image.src = src;
   image.alt = `Sampul ${product.nama}`;
   image.loading = "lazy";
   image.addEventListener(
     "error",
-    () => {
-      const fallback = node("div", "cover-fallback", initials(product.nama));
-      fallback.setAttribute("role", "img");
-      fallback.setAttribute("aria-label", `Sampul ${product.nama}`);
-      cover.prepend(fallback);
-      image.remove();
-    },
+    () => cover.replaceChildren(coverFallback(product.nama)),
     { once: true },
   );
 
   cover.append(image);
   return cover;
+}
+
+function setCoverPreview(source, nama) {
+  if (!els.coverPreview) return;
+  els.coverPreview.replaceChildren();
+
+  const src = coverSource(source);
+  if (!src) {
+    els.coverPreview.append(coverFallback(nama || "Buku baru"));
+    return;
+  }
+
+  const image = node("img");
+  image.alt = `Pratinjau sampul ${nama || "buku"}`;
+  image.addEventListener(
+    "error",
+    () => els.coverPreview.replaceChildren(coverFallback(nama || "Buku baru")),
+    { once: true },
+  );
+  image.src = src;
+  els.coverPreview.append(image);
+}
+
+function setCoverError(message) {
+  if (els.errors?.imageUrl) els.errors.imageUrl.textContent = message || "";
 }
 
 function makeStatusBadge(product) {
@@ -130,18 +172,20 @@ function renderAdminRow(product) {
   const statusCell = node("td");
   statusCell.append(makeStatusBadge(product));
 
-  const actionCell = node("td", "cell-actions");
-  actionCell.append(
+  const actionCell = node("td", "cell-action");
+  const actionButtons = node("div", "cell-actions");
+  actionButtons.append(
     makeActionButton("Ubah", "edit", product.id, "btn btn-small btn-ghost"),
     makeActionButton("Hapus", "delete", product.id, "btn btn-small btn-danger"),
   );
+  actionCell.append(actionButtons);
 
   row.append(
     coverCell,
     node("td", "", product.nama),
     node("td", "", product.kategori),
-    node("td", "", formatRupiah(product.harga)),
-    node("td", "", String(product.stok)),
+    node("td", "cell-num", formatRupiah(product.harga)),
+    node("td", "cell-num", String(product.stok)),
     statusCell,
     actionCell,
   );
@@ -209,7 +253,9 @@ export function setupUI(handlers) {
   els.fieldStok = document.getElementById("field-stok");
   els.fieldSinopsis = document.getElementById("field-sinopsis");
   els.fieldDeskripsi = document.getElementById("field-deskripsi");
+  els.coverFile = document.getElementById("field-cover-file");
   els.fieldImageUrl = document.getElementById("field-imageUrl");
+  els.coverPreview = document.getElementById("cover-preview");
   els.fieldUnggulan = document.getElementById("field-unggulan");
   els.errors = {
     nama: document.getElementById("error-nama"),
@@ -278,6 +324,29 @@ export function setupUI(handlers) {
 
   els.btnTambah.addEventListener("click", handlers.onAdd);
   els.btnReset.addEventListener("click", handlers.onReset);
+  els.coverFile.addEventListener("change", () => {
+    const file = els.coverFile.files?.[0];
+    const error = validateCoverFile(file);
+    if (error) {
+      setCoverError(error);
+      els.coverFile.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = String(reader.result ?? "");
+      els.fieldImageUrl.value = dataUrl;
+      setCoverPreview(dataUrl, els.fieldNama.value);
+      setCoverError("");
+    };
+    reader.onerror = () => {
+      setCoverError("Gagal membaca file gambar. Coba lagi.");
+      els.coverFile.value = "";
+    };
+    reader.readAsDataURL(file);
+  });
+
   els.form.addEventListener("submit", (event) => {
     event.preventDefault();
     handlers.onSubmit(getFormValues());
@@ -364,7 +433,9 @@ export function openDialog(product = null) {
   els.fieldStok.value = product ? String(product.stok) : "";
   els.fieldSinopsis.value = product ? product.sinopsis : "";
   els.fieldDeskripsi.value = product ? product.deskripsi : "";
-  els.fieldImageUrl.value = product ? product.imageUrl : "covers/";
+  els.fieldImageUrl.value = product ? product.imageUrl : "";
+  els.coverFile.value = "";
+  setCoverPreview(els.fieldImageUrl.value, product?.nama || "Buku baru");
   els.fieldUnggulan.checked = Boolean(product?.unggulan);
 
   setFormErrors({});

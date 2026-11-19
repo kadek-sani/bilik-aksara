@@ -750,26 +750,62 @@ textarea {
   box-shadow: var(--shadow-card);
 }
 
+.admin-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 10px;
+  scrollbar-width: thin;
+}
+
 .admin-table {
   display: none;
   width: 100%;
+  min-width: 720px;
   border-collapse: collapse;
+  table-layout: fixed;
   font-size: 13px;
 }
 
 .admin-table th,
 .admin-table td {
-  padding: 10px 8px;
+  padding: 10px 12px;
+  border-right: 1px solid var(--latte);
   border-bottom: 1px solid var(--latte);
   text-align: left;
   vertical-align: middle;
+  overflow-wrap: anywhere;
 }
 
-.admin-table th {
+.admin-table th:last-child,
+.admin-table td:last-child {
+  border-right: 0;
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.admin-table thead th {
+  background: var(--sand);
+  border-bottom: 2px solid var(--latte);
   color: var(--cocoa);
   font-size: 11px;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.admin-table tbody tr:nth-child(even) {
+  background: var(--cream);
+}
+
+.admin-table tbody tr:hover {
+  background: var(--mint);
+}
+
+.admin-table .cell-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .admin-cards {
@@ -808,10 +844,23 @@ textarea {
   font-weight: 600;
 }
 
-.admin-card-actions,
 .cell-actions {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.cell-actions .btn {
+  flex: 1 1 0;
+  min-width: 66px;
+  padding: 0 8px;
+}
+
+.admin-card-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -876,6 +925,36 @@ dialog form {
   min-height: 14px;
   color: var(--terra);
   font-size: 12px;
+}
+
+.field-hint {
+  color: var(--sage);
+  font-size: 11px;
+}
+
+.cover-preview {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 1px dashed var(--latte);
+  border-radius: 12px;
+  background: var(--mint);
+}
+
+.cover-preview img,
+.cover-preview .cover-fallback {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cover-preview .cover-fallback {
+  place-items: center;
+  color: var(--leaf);
+  font-size: 24px;
+  font-weight: 700;
 }
 
 .checkbox-field {

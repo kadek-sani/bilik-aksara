@@ -209,20 +209,31 @@
         </div>
 
         <div class="admin-list">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th scope="col">Sampul</th>
-                <th scope="col">Nama</th>
-                <th scope="col">Kategori</th>
-                <th scope="col">Harga</th>
-                <th scope="col">Stok</th>
-                <th scope="col">Status</th>
-                <th scope="col">Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="admin-table-body"></tbody>
-          </table>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <colgroup>
+                <col style="width: 76px" />
+                <col />
+                <col style="width: 112px" />
+                <col style="width: 108px" />
+                <col style="width: 72px" />
+                <col style="width: 100px" />
+                <col style="width: 168px" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">Sampul</th>
+                  <th scope="col">Nama</th>
+                  <th scope="col">Kategori</th>
+                  <th scope="col" class="cell-num">Harga</th>
+                  <th scope="col" class="cell-num">Stok</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="admin-table-body"></tbody>
+            </table>
+          </div>
 
           <div id="admin-cards" class="admin-cards"></div>
         </div>
@@ -267,9 +278,17 @@
             <span id="error-stok" class="field-error" role="alert"></span>
           </div>
 
-          <div class="form-field">
-            <label for="field-imageUrl">Path sampul</label>
-            <input id="field-imageUrl" type="text" placeholder="covers/nama.svg" required />
+          <div class="form-field form-field-wide">
+            <label for="field-cover-file">Sampul buku</label>
+            <input
+              id="field-cover-file"
+              type="file"
+              accept="image/*"
+              aria-describedby="error-imageUrl"
+            />
+            <input id="field-imageUrl" type="hidden" />
+            <div id="cover-preview" class="cover-preview" aria-live="polite"></div>
+            <small class="field-hint">PNG, JPG, WebP, atau SVG · maksimal 10 MB.</small>
             <span id="error-imageUrl" class="field-error" role="alert"></span>
           </div>
 

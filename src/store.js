@@ -3,6 +3,8 @@
 import { cloneProducts, normalizeProduct, SAMPLE_PRODUCTS } from "./products.js";
 
 export const STORAGE_KEY = "bilik-aksara:products:v1";
+export const MAX_STORAGE_CHARS = 1_000_000;
+export const MAX_PRODUCTS = 500;
 
 export function saveProducts(products) {
   try {
@@ -22,8 +24,11 @@ export function loadProducts() {
       return { products, notice: saveProducts(products) ? null : "unavailable" };
     }
 
+    if (raw.length > MAX_STORAGE_CHARS) throw new Error("Data terlalu besar.");
+
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) throw new Error("Format data bukan array.");
+    if (parsed.length > MAX_PRODUCTS) throw new Error("Jumlah produk melebihi batas.");
 
     const seenIds = new Set();
     const products = parsed.map((item) => {
