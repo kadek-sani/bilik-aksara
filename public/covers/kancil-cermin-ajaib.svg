@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Sampul Kancil dan Cermin Ajaib">
+  <rect width="400" height="300" fill="#F6C85F"/>
+  <rect width="26" height="300" fill="#6B4E38"/>
+  <circle cx="330" cy="150" r="70" fill="#FFF3D6" opacity="0.85"/>
+  <circle cx="330" cy="150" r="58" fill="none" stroke="#6B4E38" stroke-width="6" opacity="0.5"/>
+  <text x="56" y="122" font-family="system-ui, sans-serif" font-size="32" font-weight="700" fill="#1F2A22">Kancil dan</text>
+  <text x="56" y="160" font-family="system-ui, sans-serif" font-size="30" font-weight="700" fill="#1F2A22">Cermin Ajaib</text>
+  <text x="56" y="258" font-family="system-ui, sans-serif" font-size="15" font-weight="600" fill="#6B4E38" letter-spacing="2">KOMIK</text>
+</svg>

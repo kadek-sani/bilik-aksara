@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Sampul Teras Filsafat Senja">
+  <rect width="400" height="300" fill="#F5EDE0"/>
+  <rect width="26" height="300" fill="#6B4E38"/>
+  <circle cx="330" cy="96" r="58" fill="#F6C85F"/>
+  <path d="M0 224 H400" stroke="#6B4E38" stroke-width="8" opacity="0.35"/>
+  <text x="56" y="120" font-family="system-ui, sans-serif" font-size="30" font-weight="700" fill="#1F2A22">Teras Filsafat</text>
+  <text x="56" y="158" font-family="system-ui, sans-serif" font-size="32" font-weight="700" fill="#1F2A22">Senja</text>
+  <text x="56" y="258" font-family="system-ui, sans-serif" font-size="15" font-weight="600" fill="#6B4E38" letter-spacing="2">NON-FIKSI</text>
+</svg>

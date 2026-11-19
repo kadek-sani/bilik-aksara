@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Sampul Algoritma untuk Pemula">
+  <rect width="400" height="300" fill="#EFE3D5"/>
+  <rect width="26" height="300" fill="#6B4E38"/>
+  <g stroke="#2F8F5B" stroke-width="5" fill="none" opacity="0.55">
+    <path d="M286 86 L340 130 M286 86 L340 202 M340 130 L382 166 M340 202 L382 166"/>
+  </g>
+  <g fill="#1E6B45" opacity="0.5">
+    <circle cx="286" cy="86" r="12"/><circle cx="340" cy="130" r="12"/><circle cx="340" cy="202" r="12"/><circle cx="382" cy="166" r="12"/>
+  </g>
+  <text x="56" y="122" font-family="system-ui, sans-serif" font-size="32" font-weight="700" fill="#1F2A22">Algoritma</text>
+  <text x="56" y="160" font-family="system-ui, sans-serif" font-size="26" font-weight="600" fill="#1F2A22">untuk Pemula</text>
+  <text x="56" y="258" font-family="system-ui, sans-serif" font-size="15" font-weight="600" fill="#6B4E38" letter-spacing="2">PENDIDIKAN</text>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Sampul Kebiasaan Kecil, Dampak Besar">
+  <rect width="400" height="300" fill="#FFF3D6"/>
+  <rect width="26" height="300" fill="#F6C85F"/>
+  <g fill="#F6C85F" opacity="0.5">
+    <circle cx="300" cy="80" r="10"/><circle cx="340" cy="80" r="16"/><circle cx="382" cy="80" r="24"/>
+  </g>
+  <text x="56" y="118" font-family="system-ui, sans-serif" font-size="32" font-weight="700" fill="#1F2A22">Kebiasaan</text>
+  <text x="56" y="156" font-family="system-ui, sans-serif" font-size="26" font-weight="600" fill="#1F2A22">Kecil, Dampak Besar</text>
+  <text x="56" y="258" font-family="system-ui, sans-serif" font-size="15" font-weight="600" fill="#6B4E38" letter-spacing="2">NON-FIKSI</text>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Sampul Laut yang Bercerita">
+  <rect width="400" height="300" fill="#E7F3E9"/>
+  <rect width="26" height="300" fill="#1E6B45"/>
+  <circle cx="340" cy="56" r="86" fill="#2F8F5B" opacity="0.18"/>
+  <path d="M0 240 Q100 208 200 240 T400 240 V300 H0 Z" fill="#1E6B45" opacity="0.14"/>
+  <text x="56" y="122" font-family="system-ui, sans-serif" font-size="32" font-weight="700" fill="#1F2A22">Laut yang</text>
+  <text x="56" y="162" font-family="system-ui, sans-serif" font-size="32" font-weight="700" fill="#1F2A22">Bercerita</text>
+  <text x="56" y="258" font-family="system-ui, sans-serif" font-size="15" font-weight="600" fill="#6B4E38" letter-spacing="2">FIKSI</text>
+</svg>

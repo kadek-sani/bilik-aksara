@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Sampul Puisi di Ujung Hari">
+  <rect width="400" height="300" fill="#F5EDE0"/>
+  <rect width="26" height="300" fill="#2F8F5B"/>
+  <path d="M300 60 Q350 110 300 160 Q256 110 300 60 Z" fill="#1E6B45" opacity="0.28"/>
+  <path d="M300 160 Q350 210 300 260 Q256 210 300 160 Z" fill="#1E6B45" opacity="0.18"/>
+  <text x="56" y="122" font-family="system-ui, sans-serif" font-size="32" font-weight="700" fill="#1F2A22">Puisi di</text>
+  <text x="56" y="160" font-family="system-ui, sans-serif" font-size="32" font-weight="700" fill="#1F2A22">Ujung Hari</text>
+  <text x="56" y="258" font-family="system-ui, sans-serif" font-size="15" font-weight="600" fill="#6B4E38" letter-spacing="2">PUISI</text>
+</svg>

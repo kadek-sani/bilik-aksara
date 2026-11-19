@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Bilik Aksara — katalog buku toko dengan pencarian, filter, dan pesan WhatsApp."
+    />
+    <link rel="icon" href="data:," />
+    <title>Bilik Aksara — Katalog Buku</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="navbar-inner">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          <span>Bilik Aksara</span>
+        </div>
+
+        <span class="chip chip-demo">Mode Demo</span>
+
+        <div class="tabs" role="tablist" aria-label="Navigasi utama">
+          <button
+            id="tab-katalog"
+            class="tab is-active"
+            type="button"
+            role="tab"
+            data-tab="Katalog"
+            aria-selected="true"
+            aria-controls="panel-katalog"
+          >
+            Katalog
+          </button>
+          <button
+            id="tab-kelola"
+            class="tab"
+            type="button"
+            role="tab"
+            data-tab="Kelola"
+            aria-selected="false"
+            aria-controls="panel-kelola"
+          >
+            Kelola
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Katalog Buku Pilihan</p>
+          <h1 id="hero-title">Bacaan berikutnya, ada di sini.</h1>
+          <p class="hero-subtitle">
+            Temukan buku favoritmu, cek stoknya, lalu pesan langsung lewat WhatsApp.
+          </p>
+        </div>
+        <img
+          class="hero-art"
+          src="./covers/hero-dekor.svg"
+          alt=""
+          aria-hidden="true"
+        />
+      </section>
+
+      <section class="metrics" aria-label="Ringkasan katalog">
+        <article class="metric-card">
+          <span class="metric-icon" aria-hidden="true">✦</span>
+          <strong id="metric-judul">0</strong>
+          <span>Total Judul</span>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon" aria-hidden="true">◫</span>
+          <strong id="metric-stok">0</strong>
+          <span>Total Stok</span>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon" aria-hidden="true">★</span>
+          <strong id="metric-unggulan">0</strong>
+          <span>Judul Unggulan</span>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon metric-icon-alert" aria-hidden="true">!</span>
+          <strong id="metric-habis">0</strong>
+          <span>Stok Habis</span>
+        </article>
+      </section>
+
+      <section
+        id="panel-katalog"
+        class="panel"
+        role="tabpanel"
+        aria-labelledby="tab-katalog"
+      >
+        <div class="toolbar" aria-label="Pencarian dan filter katalog">
+          <div class="search-field">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <label class="visually-hidden" for="search-input">Cari buku</label>
+            <input
+              id="search-input"
+              type="search"
+              placeholder="Cari nama, kategori, atau sinopsis…"
+              autocomplete="off"
+            />
+            <button
+              id="search-clear"
+              class="search-clear"
+              type="button"
+              aria-label="Kosongkan pencarian"
+              hidden
+            >
+              ×
+            </button>
+          </div>
+
+          <div class="toolbar-field">
+            <label for="filter-kategori">Kategori</label>
+            <select id="filter-kategori"></select>
+          </div>
+
+          <div class="toolbar-field">
+            <label for="filter-stok">Stok</label>
+            <select id="filter-stok">
+              <option value="Semua">Semua</option>
+              <option value="Tersedia">Tersedia</option>
+              <option value="Habis">Habis</option>
+            </select>
+          </div>
+
+          <div class="toolbar-field">
+            <label for="sort-by">Urutkan</label>
+            <select id="sort-by">
+              <option value="Rekomendasi">Rekomendasi</option>
+              <option value="Nama A-Z">Nama A–Z</option>
+              <option value="Nama Z-A">Nama Z–A</option>
+              <option value="Harga Terendah">Harga Terendah</option>
+              <option value="Harga Tertinggi">Harga Tertinggi</option>
+              <option value="Stok Terbanyak">Stok Terbanyak</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="product-grid" class="product-grid" aria-live="polite"></div>
+        <p id="empty-state" class="empty-state" hidden>
+          Tidak ada buku yang cocok dengan pencarian atau filter ini.
+        </p>
+      </section>
+
+      <section
+        id="panel-kelola"
+        class="panel"
+        role="tabpanel"
+        aria-labelledby="tab-kelola"
+        hidden
+      >
+        <div class="admin-header">
+          <div>
+            <h2>Kelola Katalog</h2>
+            <p class="admin-note">Mode Demo — perubahan hanya tersimpan di browser ini.</p>
+          </div>
+          <button id="btn-tambah" class="btn btn-primary" type="button">+ Tambah Buku</button>
+        </div>
+
+        <div class="admin-list">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th scope="col">Sampul</th>
+                <th scope="col">Nama</th>
+                <th scope="col">Kategori</th>
+                <th scope="col">Harga</th>
+                <th scope="col">Stok</th>
+                <th scope="col">Status</th>
+                <th scope="col">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="admin-table-body"></tbody>
+          </table>
+
+          <div id="admin-cards" class="admin-cards"></div>
+        </div>
+
+        <button id="btn-reset" class="btn btn-ghost" type="button">Reset data contoh</button>
+      </section>
+    </main>
+
+    <dialog id="product-dialog" aria-labelledby="dialog-title">
+      <form id="product-form" novalidate>
+        <div class="dialog-head">
+          <h2 id="dialog-title">Tambah Buku</h2>
+          <button id="btn-close-dialog" class="icon-button" type="button" aria-label="Tutup formulir">
+            ×
+          </button>
+        </div>
+
+        <input id="field-id" type="hidden" />
+
+        <div class="form-grid">
+          <div class="form-field form-field-wide">
+            <label for="field-nama">Nama buku</label>
+            <input id="field-nama" type="text" maxlength="80" required />
+            <span id="error-nama" class="field-error" role="alert"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="field-kategori">Kategori</label>
+            <select id="field-kategori" required></select>
+            <span id="error-kategori" class="field-error" role="alert"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="field-harga">Harga (Rp)</label>
+            <input id="field-harga" type="number" min="0" step="any" required />
+            <span id="error-harga" class="field-error" role="alert"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="field-stok">Stok</label>
+            <input id="field-stok" type="number" min="0" step="1" required />
+            <span id="error-stok" class="field-error" role="alert"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="field-imageUrl">Path sampul</label>
+            <input id="field-imageUrl" type="text" placeholder="covers/nama.svg" required />
+            <span id="error-imageUrl" class="field-error" role="alert"></span>
+          </div>
+
+          <div class="form-field form-field-wide">
+            <label for="field-sinopsis">Sinopsis singkat</label>
+            <textarea id="field-sinopsis" maxlength="200" rows="2" required></textarea>
+            <span id="error-sinopsis" class="field-error" role="alert"></span>
+          </div>
+
+          <div class="form-field form-field-wide">
+            <label for="field-deskripsi">Deskripsi</label>
+            <textarea id="field-deskripsi" maxlength="1000" rows="3" required></textarea>
+            <span id="error-deskripsi" class="field-error" role="alert"></span>
+          </div>
+
+          <label class="checkbox-field form-field-wide" for="field-unggulan">
+            <input id="field-unggulan" type="checkbox" />
+            <span>Jadikan buku unggulan</span>
+          </label>
+        </div>
+
+        <div class="dialog-actions">
+          <button id="btn-batal" class="btn btn-ghost" type="button">Batal</button>
+          <button id="submit-label" class="btn btn-primary" type="submit">Simpan</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

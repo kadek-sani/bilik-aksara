@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" role="img" aria-label="Dekorasi daun dan buku">
+  <rect width="480" height="320" rx="24" fill="#E7F3E9"/>
+  <circle cx="386" cy="66" r="88" fill="#F6C85F" opacity="0.45"/>
+  <path d="M110 250 Q70 150 160 90 Q200 180 110 250 Z" fill="#1E6B45" opacity="0.85"/>
+  <path d="M160 90 Q250 120 250 210 Q170 200 160 90 Z" fill="#2F8F5B" opacity="0.55"/>
+  <g transform="rotate(-8 280 210)">
+    <rect x="210" y="150" width="150" height="96" rx="10" fill="#FFFFFF"/>
+    <rect x="210" y="150" width="18" height="96" rx="8" fill="#6B4E38"/>
+    <rect x="242" y="172" width="100" height="8" rx="4" fill="#1E6B45" opacity="0.5"/>
+    <rect x="242" y="192" width="76" height="8" rx="4" fill="#F6C85F"/>
+    <rect x="242" y="212" width="90" height="8" rx="4" fill="#EFE3D5"/>
+  </g>
+</svg>
